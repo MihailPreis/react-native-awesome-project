@@ -162,6 +162,7 @@ export default function UserDetails({ navigation, route }) {
 
     React.useLayoutEffect(() => {
         navigation.setOptions({
+            title: username,
             headerRight: () => <Button onPress={() => saveContact()} title="🗿" />,
         });
     }, [navigation]);
