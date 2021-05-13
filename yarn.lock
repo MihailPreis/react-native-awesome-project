@@ -4848,7 +4848,7 @@ inquirer@^3.0.6:
     strip-ansi "^4.0.0"
     through "^2.3.6"
 
-invariant@^2.2.2, invariant@^2.2.4:
+invariant@^2.2.2, invariant@^2.2.4, invariant@^2.2.x:
   version "2.2.4"
   resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.4.tgz#610f3c92c9359ce1db616e538008d23ff35158e6"
   integrity sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA==
@@ -7425,6 +7425,13 @@ react-native-screens@~2.15.2:
   version "2.15.2"
   resolved "https://registry.yarnpkg.com/react-native-screens/-/react-native-screens-2.15.2.tgz#a449700e895b462937211ec72ed6f09652758f06"
   integrity sha512-CagNf2APXkVoRlF3Mugr264FbKbrBg9eXUkqhIPVeZB8EsdS8XPrnt99yj/pzmT+yJMBY0dGrjXT8+68WYh6YQ==
+
+react-native-shake@^3.5.2:
+  version "3.5.2"
+  resolved "https://registry.yarnpkg.com/react-native-shake/-/react-native-shake-3.5.2.tgz#34d63443a062688898c6e0e94d5e8458d9bc4b29"
+  integrity sha512-QgvwuJf9GfTTvdwic0t/bGQJVePG8UIkjxF2AB/BY/06ffW/1KsGFFvv6aEbfK49th5AIydRFKKgPQA/+8P6zg==
+  dependencies:
+    invariant "^2.2.x"
 
 react-native-unimodules@~0.12.0:
   version "0.12.0"
