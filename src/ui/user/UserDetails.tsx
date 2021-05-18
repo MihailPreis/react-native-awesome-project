@@ -4,7 +4,6 @@ import UserModel from './UserModel';
 import * as Sharing from 'expo-sharing';
 import RNFetchBlob from 'rn-fetch-blob';
 import Contacts, { Contact } from 'react-native-contacts';
-import DeviceInfo from 'react-native-device-info'
 
 const styles = StyleSheet.create({
     scroll: {
@@ -44,6 +43,15 @@ const styles = StyleSheet.create({
     }
 });
 
+function InfoItem(prefs: { title: string, value: any }) {
+    return (
+        <>
+            <Text style={styles.info_title}>{prefs.title}</Text>
+            <Text style={styles.info_value}>{prefs.value}</Text>
+        </>
+    )
+}
+
 export default function UserDetails({ navigation, route }) {
     const model: UserModel = route.params.model;
     const username = [model.name.first, model.name.last]
@@ -62,7 +70,6 @@ export default function UserDetails({ navigation, route }) {
     ].join(", ");
 
     async function openContactForm(level: number = 0) {
-        if (DeviceInfo.isEmulator()) return;
         if (level >= 3) return;
         level += 1;
         console.log("openContactForm level=" + level.toString())
@@ -77,9 +84,7 @@ export default function UserDetails({ navigation, route }) {
                     openContactForm();
                     return;
                 case 'undefined':
-                    // TODO: Проверить на физике
-                    let res = await Contacts.requestPermission();
-                    console.log("requestPermission:", res)
+                    await Contacts.requestPermission();
                     openContactForm();
                     return;
                 default:
@@ -100,23 +105,10 @@ export default function UserDetails({ navigation, route }) {
                 }],
                 hasThumbnail: true,
                 thumbnailPath: path,
-                postalAddresses: [{
-                    label: 'home',
-                    formattedAddress: '',
-                    street: model.location.street.name,
-                    pobox: '',
-                    neighborhood: '',
-                    city: model.location.city,
-                    region: '',
-                    state: model.location.state,
-                    postCode: model.location.postcode,
-                    country: model.location.country,
-                }],
                 prefix: model.gender === "male" ? 'MR' : 'MRS',
-                birthday: { 'year': dob.getFullYear(), 'month': dob.getMonth(), 'day': dob.getDay() },
+                birthday: { 'year': dob.getFullYear(), 'month': dob.getMonth(), 'day': 1 },
             }
-            let result = await Contacts.openContactForm(contact);
-            console.log(result);
+            await Contacts.openContactForm(contact);
         } catch (e) {
             console.warn("Contact create error:", e)
         }
@@ -156,50 +148,33 @@ export default function UserDetails({ navigation, route }) {
             let path = await download_avatar();
             await Sharing.shareAsync(path);
         } catch (err) {
-            console.error("User avatar download/share error: {}", err)
+            console.warn("User avatar download/share error: {}", err)
         }
     }
 
     React.useLayoutEffect(() => {
         navigation.setOptions({
             title: username,
-            headerRight: () => <Button onPress={() => saveContact()} title="🗿" />,
+            headerRight: () => <Button onPress={saveContact} title="🗿" />,
         });
     }, [navigation]);
 
     return (
         <ScrollView style={styles.scroll}>
             <View style={styles.container}>
-                <TouchableOpacity style={{ ...styles.avatar, borderColor: avatarBorder }} onPress={() => shareAvatar()}>
+                <TouchableOpacity style={{ ...styles.avatar, borderColor: avatarBorder }} onPress={shareAvatar}>
                     <Image style={{ ...styles.avatar, borderColor: avatarBorder }} source={{ uri: model.picture.large }}></Image>
                 </TouchableOpacity>
-
                 <View style={styles.info_block}>
                     <Text style={styles.usename}>{username}</Text>
-
-                    <Text style={styles.info_title}>Age</Text>
-                    <Text style={styles.info_value}>{model.dob.age}</Text>
-
-                    <Text style={styles.info_title}>Date of birth</Text>
-                    <Text style={styles.info_value}>{new Date(model.dob.date).toLocaleDateString()}</Text>
-
-                    <Text style={styles.info_title}>Email</Text>
-                    <Text style={styles.info_value}>{model.email}</Text>
-
-                    <Text style={styles.info_title}>ID::Name</Text>
-                    <Text style={styles.info_value}>{model.id.name}</Text>
-
-                    <Text style={styles.info_title}>ID::Value</Text>
-                    <Text style={styles.info_value}>{model.id.value}</Text>
-
-                    <Text style={styles.info_title}>Login::UUID</Text>
-                    <Text style={styles.info_value}>{model.login.uuid}</Text>
-
-                    <Text style={styles.info_title}>Login::Username</Text>
-                    <Text style={styles.info_value}>{model.login.username}</Text>
-
-                    <Text style={styles.info_title}>Address</Text>
-                    <Text style={styles.info_value}>{address}</Text>
+                    <InfoItem title="Age" value={model.dob.age} />
+                    <InfoItem title="Date of birth" value={new Date(model.dob.date).toLocaleDateString()} />
+                    <InfoItem title="Email" value={model.email} />
+                    <InfoItem title="ID::Name" value={model.id.name} />
+                    <InfoItem title="ID::Value" value={model.id.value} />
+                    <InfoItem title="Login::UUID" value={model.login.uuid} />
+                    <InfoItem title="Login::Username" value={model.login.username} />
+                    <InfoItem title="Address" value={address} />
                 </View>
             </View>
         </ScrollView>
