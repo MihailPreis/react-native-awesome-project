@@ -23,6 +23,7 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "~0.63.4",
+    "react-native-camera": "^3.43.8",
     "react-native-contacts": "^7.0.0",
     "react-native-device-info": "^8.1.3",
     "react-native-gesture-handler": "~1.8.0",

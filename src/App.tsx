@@ -8,6 +8,7 @@ import UsersScreen from './ui/user/UsersScreen';
 import UserDetails from './ui/user/UserDetails';
 import RNShake from 'react-native-shake';
 import DevMenuScreen from './ui/devmenu/DevMenuScreen';
+import CameraScreen from './ui/camera/CameraScreen';
 
 const RootStack = createStackNavigator();
 const MainStack = createStackNavigator();
@@ -26,6 +27,7 @@ function Main({ navigation, route }) {
       <MainStack.Screen name="CatViewer" component={CatViewer} options={{ title: '🐈🐈‍⬛🐈' }} />
       <MainStack.Screen name="UsersViewer" component={UsersScreen} options={{ title: 'Users' }} />
       <MainStack.Screen name="UserDetails" component={UserDetails} options={{ title: 'John Doe' }} />
+      <MainStack.Screen name="CameraScreen" component={CameraScreen} options={{ headerShown: false }} />
     </MainStack.Navigator>
   );
 }

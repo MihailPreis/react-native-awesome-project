@@ -1,40 +1,25 @@
 import React from 'react';
-import { StyleSheet, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, ScrollView } from 'react-native';
+import ImageButton from './ImageButton';
 
 const styles = StyleSheet.create({
-    container: {
-        alignItems: 'center',
-        backgroundColor: '#fff',
-        flex: 1
-    },
-    image: {
-        width: '100%',
-        height: 250
+    scroll: {
+        backgroundColor: '#fff'
     }
 });
 
 export default function HomeScreen({ navigation }) {
     const userImage = require('../../../assets/goToUserList.png');
     const catImage = require('../../../assets/goToCatsViewer.jpg');
+    const takeAPhotoImage = require('../../../assets/takeAPhoto.png');
+    const devMenuTipImage = require('../../../assets/devMenuTip.png');
 
     return (
-        <>
-            <View style={styles.container}>
-                <TouchableOpacity style={styles.image} onPress={() => navigation.navigate('UsersViewer')}>
-                    <Image
-                        style={styles.image}
-                        source={userImage}
-                    />
-                </TouchableOpacity>
-            </View>
-            <View style={{ ...styles.container, flexDirection: 'column-reverse' }}>
-                <TouchableOpacity style={styles.image} onPress={() => navigation.navigate('CatViewer')}>
-                    <Image
-                        style={styles.image}
-                        source={catImage}
-                    />
-                </TouchableOpacity>
-            </View>
-        </>
+        <ScrollView style={styles.scroll}>
+            <ImageButton image={devMenuTipImage} onPress={() => alert("Shake!")} />
+            <ImageButton image={userImage} onPress={() => navigation.navigate('UsersViewer')} />
+            <ImageButton image={takeAPhotoImage} onPress={() => navigation.navigate('CameraScreen')} />
+            <ImageButton image={catImage} onPress={() => navigation.navigate('CatViewer')} />
+        </ScrollView>
     );
 }
